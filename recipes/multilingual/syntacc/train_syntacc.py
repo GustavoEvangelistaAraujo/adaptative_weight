@@ -38,35 +38,133 @@ BATCH_SIZE = 6
 
 # Training Sampling rate and the target sampling rate for resampling the downloaded dataset (Note: If you change this you might need to redownload the dataset !!)
 # Note: If you add new datasets, please make sure that the dataset sampling rate and this parameter are matching, otherwise resample your audios
-SAMPLE_RATE = 24000
+SAMPLE_RATE = 16000
 
 # Max audio length in seconds to be used in training (every audio bigger than it will be ignored)
 MAX_AUDIO_LEN_IN_SECONDS = float("inf")
 
-# DEfine here the datasets config
-esd_train_config = BaseDatasetConfig(
+# Define here the datasets config
+brpb_train_config = BaseDatasetConfig(
     formatter="coqui",
-    dataset_name="esd",
-    meta_file_train="metadata_with_basic_metrics.csv",  # TODO: compute emotion and d-vectors for test and evaluation splits
-    path="/raid/datasets/Emotion/ESD-44kHz-VAD-renormalized/",
-    language="en"
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brpb.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brpb"
 )
 
-savee_config = BaseDatasetConfig(
+brba_train_config = BaseDatasetConfig(
     formatter="coqui",
-    dataset_name="savee",
-    path="/raid/datasets/SAVEE-44khz/",
-    meta_file_train="metadata_with_basic_metrics.csv",
-    language="pt"
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brba.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brba"
 )
-game1_config = BaseDatasetConfig(
+
+brportugal_train_config = BaseDatasetConfig(
     formatter="coqui",
-    dataset_name="game1",
-    path="/raid/datasets/new_game_data/game1/datasetbuilder_formatted/",
-    meta_file_train="metadata_with_basic_metrics.csv",
-    language="de",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brportugal.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brportugal"
 )
-DATASETS_CONFIG_LIST = [esd_train_config, savee_config, game1_config]
+
+brsp_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brsp.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brsp"
+)
+
+brpe_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brpe.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brpe"
+)
+
+brmg_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brmg.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brmg"
+)
+
+brrj_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brrj.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brrj"
+)
+
+brce_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brce.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brce"
+)
+
+brrs_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brrs.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brrs"
+)
+
+bralemanha_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_bralemanha.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="bralemanha"
+)
+
+brgo_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brgo.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brgo"
+)
+
+bral_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_bral.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="bral"
+)
+
+brpr_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brpr.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brpr"
+)
+
+bres_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_bres.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="bres"
+)
+
+brpi_train_config = BaseDatasetConfig(
+    formatter="coqui",
+    dataset_name="mupe",
+    meta_file_train="metadata_coqui_brpi.csv",
+    path="/PROJ/data/metadata/v-180124/",
+    language="brpi"
+)
+
+DATASETS_CONFIG_LIST = [brpb_train_config,brba_train_config,brportugal_train_config,brsp_train_config,brpe_train_config,brmg_train_config,brrj_train_config,brce_train_config,brrs_train_config,bralemanha_train_config,brgo_train_config,bral_train_config,brpr_train_config,bres_train_config,brpi_train_config]
 
 
 ### Extract speaker embeddings
@@ -187,8 +285,22 @@ config = VitsConfig(
     max_audio_len=SAMPLE_RATE * MAX_AUDIO_LEN_IN_SECONDS,
     mixed_precision=False,
     test_sentences=[
-        ["Voc\u00ea ter\u00e1 a vista do topo da montanha que voc\u00ea escalar.", "ESD_0012", None, "pt"],
-        ["Quando voc\u00ea n\u00e3o corre nenhum risco, voc\u00ea arrisca tudo.", "ESD_0012", None, "pt"],
+        #GUSTAVO: apenas pessoas do treino
+        ["Voc\u00ea ter\u00e1 a vista do topo da montanha que voc\u00ea escalar.", "EDILEINE_FONSECA", None, "brsp"],
+        ["Quem semeia ventos, colhe tempestades.", "JOSE_PAULO_DE_ARAUJO", None, "brpb"],
+        ["O olho do dono \u00e9 que engorda o gado.", "VITOR_RAFAEL_OLIVEIRA_ALVES", None, "brba"],
+        ["\u00c1gua mole em pedra dura, tanto bate at\u00e9 que fura.", "MARIA_AURORA_FELIX", None, "brportugal"],
+        ["Quem espera sempre alcan\u00e7a.", "ANTONIO_DE_AMORIM_COSTA", None, "brpe"],
+        ["Cada macaco no seu galho.", "ALCIDES_DE_LIMA", None, "brmg"],
+        ["Em terra de cego, quem tem um olho \u00e9 rei.", "ALUISIO_SOARES_DE_SOUSA", None, "brrj"],
+        ["A ocasi\u00e3o faz o ladr\u00e3o.", "FRANCISCO_JOSE_MOREIRA_MOTA", None, "brce"],
+        ["De gr\u00e3o em gr\u00e3o, a galinha enche o papo.", "EVALDO_ANDRADA_CORREA", None, "brrs"],
+        ["Mais vale um p\u00c1ssaro na m\u00e3o do que dois voando.", "DORIS_ALEXANDER", None, "bralemanha"],
+        ["Quem n\u00e3o arrisca, n\u00e3o petisca.", "DONALDO_LUIZ_DE_ALMEIDA", None, "brgo"],
+        ["A uni\u00e3o faz a for\u00e7a.", "GERONCIO_HENRIQUE_NETO", None, "bral"],
+        ["Em boca fechada n\u00e3o entra mosquito.", "MALU_NATEL_FREIRE_WEBER", None, "brpr"],
+        ["Quem n\u00e3o tem dinheiro, n\u00e3o tem v\u00edcios.", "INES_VIEIRA_BOGEA", None, "bres"],
+        ["Quando voc\u00ea n\u00e3o corre nenhum risco, voc\u00ea arrisca tudo.", "MARIA_ASSUNCAO_SOUSA", None, "brpi"]
     ],
     # Enable the weighted sampler
     use_weighted_sampler=True,
